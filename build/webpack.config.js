@@ -1,5 +1,5 @@
 var path = require('path');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // var express = require('express');
 // var app = express();
@@ -33,9 +33,7 @@ var config = {
         rules: [
             {
                 test: /\.(sa|sc|c)ss$/,
-                use: [{
-                        loader: MiniCssExtractPlugin.loader,
-                      },
+                use: [
                     'style-loader',
                     'css-loader'
                 ],
@@ -46,26 +44,36 @@ var config = {
             },
             {
                 test: /\.vue$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                },
-                    'style-loader',
-                    'css-loader'
-                ],
-                // loader: [
-                //     'style-loader',
-                //     'css-loader'
-                // ]
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        js: 'babel-loader',
+                        css: [
+                            'style-loader',
+                            'css-loader',
+                        ]
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },
         ]
     },
+    // resolve: {
+    //     alias: {
+    //         'vue$': 'vue/dist/vue.esm.js'
+    //     }
+    // },
     plugins: [
-        new MiniCssExtractPlugin({
+        // new MiniCssExtractPlugin({
             // filename: devMode? 'css/mainDev.css' : "css/main.css",
             // chunkFilename: "[id].css"
-            filename: 'css/[name].css',
-            chunkFilename:'css/[id].css'
-        })
+        //     filename: 'css/[name].css',
+        //     chunkFilename:'css/[id].css'
+        // })
     ],
 };
 
