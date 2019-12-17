@@ -1,5 +1,7 @@
 <template>
-    <div>Hello {{name}}</div>
+    <div>
+
+    </div>
 </template>
 <script>
 export default {

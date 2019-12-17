@@ -12,35 +12,43 @@ var config = {
         main: './main'
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.join(__dirname, '../dist'),
         publicPath: '/dist/',
         filename: 'main.js'
     },
-    // optimization: {
-    //    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-    //     splitChunks: {
-    //         cacheGroups: {
-    //             styles: {
-    //                 name: 'styles',
-    //                 test: /\.css$/,
-    //                 chunks: 'all',
-    //                 enforce: true,
-    //             },
-    //         }
-    //     },
-    // },
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            '@': path.join(__dirname, '..', 'src')
+        }
+    },
+    devServer: {
+        contentBase: path.join(__dirname, "../index.html"),
+        port: 8080,
+    },
+   //  dev: {
+   //      port: 8080, // 运行测试页面的端口
+   //      assetsPublicPath: '/', // 编译发布的根目录，可配置为资源服务器域名或 CDN 域名
+   //      proxyTable: {}, // 需要 proxyTable 代理的接口（可跨域）
+   //      cssSourceMap: false // 是否开启 cssSourceMap
+   // },
     module: {
         rules: [
             {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
                 test: /\.(sa|sc|c)ss$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ],
-                // loader: [
+                // use: [
                 //     'style-loader',
                 //     'css-loader'
-                // ]
+                // ],
+                loader: [
+                    'style-loader',
+                    'css-loader'
+                ]
             },
             {
                 test: /\.vue$/,
@@ -56,9 +64,8 @@ var config = {
                 }
             },
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader?limit=1024'
             },
         ]
     },
